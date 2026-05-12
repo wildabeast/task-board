@@ -31,7 +31,7 @@ export function Column({ column }: Props) {
 
       <div className="column__tasks">
         {column.tasks.map((task) => (
-          <TaskCard key={task.id} task={task} />
+          <TaskCard key={task.id} task={task} columnId={column.id} />
         ))}
       </div>
 

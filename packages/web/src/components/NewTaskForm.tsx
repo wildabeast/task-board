@@ -35,6 +35,9 @@ export function NewTaskForm({ columnId, onClose }: Props) {
             if (!newRef) return list;
             return [...list, { __ref: newRef }];
           },
+          taskCount(existing: number) {
+            return existing + 1;
+          },
         },
       });
     },
