@@ -35,11 +35,12 @@ export function TaskCard({ task, columnId }: Props) {
       cache.modify({
         id: cache.identify({ __typename: "Column", id: columnId }),
         fields: {
-          tasks(existing: ReadonlyArray<{ __ref: string }>, { readField }) {
-            return existing.filter((ref) => readField("id", ref) !== task.id);
+          tasks(existing: ReadonlyArray<{ __ref: string }> | undefined, { readField }) {
+            const list = Array.isArray(existing) ? existing : [];
+            return list.filter((ref) => readField("id", ref) !== task.id);
           },
-          taskCount(existing: number) {
-            return Math.max(0, existing - 1);
+          taskCount(existing: number | undefined) {
+            return Math.max(0, (existing ?? 0) - 1);
           },
         },
       });
