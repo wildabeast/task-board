@@ -9,9 +9,9 @@
     "packages/*"
   ],
   "scripts": {
-    "db:up": "docker compose up -d postgres",
+    "db:up": "docker compose up -d --wait postgres",
     "db:down": "docker compose down",
-    "db:reset": "docker compose down -v && docker compose up -d postgres && sleep 3 && yarn workspace @taskboard/api db:push && yarn workspace @taskboard/api db:seed",
+    "db:reset": "docker compose down -v && docker compose up -d --wait postgres && yarn workspace @taskboard/api db:push && yarn workspace @taskboard/api db:seed",
     "db:push": "yarn workspace @taskboard/api db:push",
     "db:seed": "yarn workspace @taskboard/api db:seed",
     "dev:api": "yarn workspace @taskboard/api dev",
