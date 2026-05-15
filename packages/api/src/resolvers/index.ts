@@ -69,7 +69,7 @@ export const resolvers = {
     // BUGS.md.
     assignee: async (parent: { assigneeId: string | null }, _: unknown, ctx: Context) => {
       if (!parent.assigneeId) return null;
-      return ctx.prisma.user.findFirst({ where: { id: parent.assigneeId } });
+      return ctx.prisma.user.findUnique({ where: { id: parent.assigneeId } });
     },
     column: (parent: { columnId: string }, _: unknown, ctx: Context) =>
       ctx.prisma.column.findUnique({ where: { id: parent.columnId } }),
