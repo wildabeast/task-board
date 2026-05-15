@@ -1,10 +1,11 @@
 import { useMutation } from "@apollo/client";
 import classNames from "classnames";
 import type { TaskNode } from "../types.js";
-import { BOARD_QUERY, DELETE_TASK } from "../graphql/operations.js";
+import { DELETE_TASK } from "../graphql/operations.js";
 
 interface Props {
   task: TaskNode;
+  columnId: string;
 }
 
 const PRIORITY_LABEL: Record<TaskNode["priority"], string> = {
@@ -27,10 +28,25 @@ function formatDueDate(iso: string): string {
   });
 }
 
-export function TaskCard({ task }: Props) {
+export function TaskCard({ task, columnId }: Props) {
   const [deleteTask, { loading: deleting }] = useMutation(DELETE_TASK, {
     variables: { id: task.id },
-    refetchQueries: [{ query: BOARD_QUERY }],
+    update(cache) {
+      cache.modify({
+        id: cache.identify({ __typename: "Column", id: columnId }),
+        fields: {
+          tasks(existing: ReadonlyArray<{ __ref: string }> | undefined, { readField }) {
+            const list = Array.isArray(existing) ? existing : [];
+            return list.filter((ref) => readField("id", ref) !== task.id);
+          },
+          taskCount(existing: number | undefined) {
+            return Math.max(0, (existing ?? 0) - 1);
+          },
+        },
+      });
+      cache.evict({ id: cache.identify({ __typename: "Task", id: task.id }) });
+      cache.gc();
+    },
   });
 
   return (

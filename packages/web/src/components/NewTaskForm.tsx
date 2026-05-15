@@ -17,10 +17,6 @@ export function NewTaskForm({ columnId, onClose }: Props) {
   const [dueDate, setDueDate] = useState("");
 
   const [createTask, { loading, error }] = useMutation(CREATE_TASK, {
-    // BUG #1 (continued): we only update the `tasks` list on the Column —
-    // the server-resolved `taskCount` is never touched, so the badge in
-    // Column.tsx shows the stale value. A correct fix would either evict
-    // the count, write a new value, or refetch the board query.
     update(cache, { data }) {
       const created = data?.createTask;
       if (!created) return;
@@ -34,6 +30,9 @@ export function NewTaskForm({ columnId, onClose }: Props) {
             const newRef = cache.identify({ __typename: "Task", id: created.id });
             if (!newRef) return list;
             return [...list, { __ref: newRef }];
+          },
+          taskCount(existing: number | undefined) {
+            return (existing ?? 0) + 1;
           },
         },
       });
