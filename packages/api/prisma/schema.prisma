@@ -48,11 +48,7 @@ model Task {
   id          String    @id @default(cuid())
   title       String
   description String?
-  // BUG: position is stored as a String instead of an Int. The original
-  // intent was to support fractional re-ordering ("a0", "a5", "b3"-style
-  // keys) but the implementation never landed, and now tasks sort
-  // lexicographically — "10" sorts before "2". See BUGS.md #3.
-  position    String    @default("0")
+  position    Int       @default(0)
   dueDate     DateTime?
   priority    Priority  @default(MEDIUM)
   createdAt   DateTime  @default(now())

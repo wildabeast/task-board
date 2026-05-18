@@ -95,9 +95,7 @@ export const resolvers = {
           dueDate: input.dueDate ?? null,
           assigneeId: input.assigneeId ?? null,
           columnId: input.columnId,
-          // Append to end of column; collisions with the moveTask bug below
-          // are *not* defended against here.
-          position: String(count + 1),
+          position: count + 1,
         },
       });
     },
@@ -137,7 +135,7 @@ export const resolvers = {
         where: { id: taskId },
         data: {
           columnId: toColumnId,
-          position: String(toIndex),
+          position: toIndex,
         },
       });
     },

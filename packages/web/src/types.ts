@@ -11,7 +11,7 @@ export interface TaskNode {
   title: string;
   description: string | null;
   priority: Priority;
-  position: string;
+  position: number;
   dueDate: string | null;
   assignee: UserSummary | null;
 }

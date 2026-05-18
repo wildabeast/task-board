@@ -82,14 +82,11 @@ async function main() {
       dueDate = d;
     }
 
-    // NOTE: position is intentionally a String — this is part of bug #3.
-    // We use 1-indexed numeric strings so the lex-sort bug ("10" < "2") is
-    // observable as soon as a column has more than 9 tasks.
     await prisma.task.create({
       data: {
         title,
         description: `Auto-seeded task #${i + 1}.`,
-        position: String(i + 1),
+        position: i + 1,
         priority: priorities[i % priorities.length]!,
         dueDate,
         columnId: column.id,
@@ -106,7 +103,7 @@ async function main() {
       data: {
         title: `Backlog item ${i + 1}`,
         description: "Filler task to make sort order and N+1 issues visible.",
-        position: String(i + 1),
+        position: i + 1,
         priority: priorities[i % priorities.length]!,
         columnId: backlog.id,
         assigneeId: users[i % users.length]!.id,

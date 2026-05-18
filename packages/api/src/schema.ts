@@ -35,7 +35,7 @@ export const typeDefs = gql`
     id: ID!
     title: String!
     description: String
-    position: String!
+    position: Int!
     dueDate: DateTime
     priority: Priority!
     createdAt: DateTime!

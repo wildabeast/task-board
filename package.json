@@ -14,6 +14,7 @@
     "db:reset": "docker compose down -v && docker compose up -d --wait postgres && yarn workspace @taskboard/api db:push && yarn workspace @taskboard/api db:seed",
     "db:push": "yarn workspace @taskboard/api db:push",
     "db:seed": "yarn workspace @taskboard/api db:seed",
+    "db:migrate": "yarn workspace @taskboard/api db:migrate",
     "dev:api": "yarn workspace @taskboard/api dev",
     "dev:web": "yarn workspace @taskboard/web dev",
     "dev": "concurrently -n api,web -c blue,green \"yarn dev:api\" \"yarn dev:web\"",
