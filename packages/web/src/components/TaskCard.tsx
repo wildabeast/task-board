@@ -16,15 +16,11 @@ const PRIORITY_LABEL: Record<TaskNode["priority"], string> = {
 };
 
 function formatDueDate(iso: string): string {
-  // BUG #4: the server returns dueDate as an ISO timestamp at 00:00 UTC.
-  // `new Date(iso)` interprets that instant in the local timezone, so a
-  // task due "2025-04-15" displays as "Apr 14" for anyone west of UTC.
-  // Reproduce: set your system timezone to America/Los_Angeles, view a task
-  // seeded with a due date, and watch the day shift back by one.
   const d = new Date(iso);
   return d.toLocaleDateString(undefined, {
     month: "short",
     day: "numeric",
+    timeZone: "UTC",
   });
 }
 

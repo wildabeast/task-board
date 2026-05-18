@@ -45,10 +45,6 @@ export function NewTaskForm({ columnId, onClose }: Props) {
     if (!trimmed) {
       return;
     }
-    // BUG #4 (companion): we send the raw "YYYY-MM-DD" string from a
-    // <input type="date"> as if it were a full ISO datetime. The server
-    // parses it as midnight UTC, which combined with the local-tz display
-    // in TaskCard.formatDueDate produces the off-by-one-day rendering.
     const dueIso = dueDate ? new Date(dueDate).toISOString() : null;
 
     await createTask({
